@@ -50,6 +50,38 @@ class Message {
       `SELECT * FROM message WHERE id = ?`,
       [id])
   }
+
+  getByReciepentId(id, start = 0, limit = 100) {
+    let sql = `SELECT * FROM message
+     LEFT JOIN textMessage ON textMessage.contentId = message.contentId
+     WHERE recipientUserId = ?
+     AND id >= ?
+     ORDER BY message.id
+     LIMIT ?
+    `;
+    return this.dao.all(sql, [id, start, limit])
+      .then(data => {
+        return this._getMessage(data);
+      });
+  }
+
+  _getMessage(data) {
+    let messages = [];
+    data.forEach(msg => {
+      messages.push({
+        "id": msg.id,
+        "timestamp": msg.Timestamp,
+        "sender": msg.senderUserId,
+        "recipient": msg.recipientUserId,
+        "content": {
+          "type": msg.contentTypeId,
+          "text": msg.data
+        }
+      });
+    });
+    return messages
+  }
+
   getAll() {
     return this.dao.all(`SELECT * FROM message`)
   }

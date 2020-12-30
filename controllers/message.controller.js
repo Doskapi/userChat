@@ -48,6 +48,17 @@ module.exports.send = async (req, res) => {
  * Fetch all existing messages to a given recipient, within a range of message IDs.
  */
 module.exports.get = async (req, res) => {
-  // TODO: Retrieve list of Messages
-  res.status(200).json({ messages : [ message ] });
+  _tokenValidation(req, res, function (req, res) {
+    if (userDao.isValidUserId(req.body.recipient)) {
+      messageDao.getByReciepentId(req.query.recipient, req.query.start, req.query.limit)
+        .then(data => res.status(200).json({ messages : [data] }));
+    } else {
+      res.status(404).send("User id does not exists");
+    }
+    }
+  );
+};
+
+module.exports.getAll = async (req, res) => {
+  messageDao.getAll().then(data => res.status(200).json(data));
 };

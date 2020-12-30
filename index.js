@@ -31,6 +31,8 @@ app.get('/messages',  msgController.get);
 
 // extra apis to see data
 app.get('/user',  userController.getAll);
+app.get('/messagesAll',  msgController.getAll);
+
 app.listen(port, () => {
   console.log(`ASAPP Challenge app running on port http://localhost:${port}`);
 });
