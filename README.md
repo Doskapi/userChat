@@ -15,5 +15,27 @@ Installed Nodejs >= v8.x
 npm start
 ```
 
-##### Note
-You can remove/modify this file for documenting your solution.
+### Notes
+
+#### Docker
+
+I will create a single container with the nodejs server and the sqlite base. This can be extended to a docker-comopose spliting the nodejs from the base.
+
+To run the container:
+1. `cd asappUserChat`
+2. `docker build -t asappchat .`
+3. `docker run -d -it -p 8080:8080 asappchat`
+
+
+---
+
+#### TODO
+
+- [x] Dockerize
+- [ ] Create the sql db (basic tables) // mongodb will probably be a better db, but i will follow the sqlite3 advise
+- [ ] Create the CRUD for the user table
+- [ ] Create users endpoint
+- [ ] Use md5 to save the pass as a hash in the db
+- [ ] Create login endpoint
+- [ ] Use JWT to securize the endpoints
+- [ ] Create the 2 messages endopoints
