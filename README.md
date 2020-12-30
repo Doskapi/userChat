@@ -39,3 +39,11 @@ To run the container:
 - [x] Create login endpoint
 - [x] Use JWT to securize the endpoints
 - [x] Create the 2 messages endopoints
+
+
+#### Some comments 
+
+Some other things I think is important to add, TESTS!!!! Lots of them, we can use Mocha and Chai to do this. 
+
+Also I have some importants comments, and leave the in the code. 
+
