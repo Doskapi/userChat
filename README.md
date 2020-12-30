@@ -32,7 +32,7 @@ To run the container:
 #### TODO
 
 - [x] Dockerize
-- [ ] Create the sql db (basic tables) // mongodb will probably be a better db, but i will follow the sqlite3 advise
+- [x] Create the sql db (basic tables) // mongodb will probably be a better db, but i will follow the sqlite3 advise
 - [ ] Create the CRUD for the user table
 - [ ] Create users endpoint
 - [ ] Use md5 to save the pass as a hash in the db
