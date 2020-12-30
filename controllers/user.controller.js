@@ -24,3 +24,10 @@ module.exports.createUser = async (req, res) => {
     res.status(404);
   }
 }
+
+module.exports.getAll = async (req, res) => {
+  userDao.getAll()
+    .then(data => {
+      res.status(200).json(data);
+    });
+}
