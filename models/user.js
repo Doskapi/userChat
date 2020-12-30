@@ -33,8 +33,18 @@ class User {
       [id])
   }
 
+  isValidUserId(id) {
+    return this.getById(id);
+  }
+
   getAll() {
     return this.dao.all(`SELECT * FROM user`)
+  }
+
+  getByUsername(username) {
+    return this.dao.get(
+      `SELECT * FROM user WHERE username = (?)`,
+      [username])
   }
 
   getByUsernameAndPassword(username, password) {
