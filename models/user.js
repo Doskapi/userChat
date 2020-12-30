@@ -1,3 +1,5 @@
+var md5 = require('md5')
+
 class User {
   constructor(dao) {
     this.dao = dao
