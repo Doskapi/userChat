@@ -8,9 +8,14 @@ const msgController = require('./controllers/message.controller');
 
 const DbDao = require('./db/dao');
 const User = require('./models/user');
+const Message = require('./models/message');
 const dao = new DbDao();
 const user = new User(dao);
+const message = new Message(dao);
 user.createTable()
+  .then(() => message.createTables()
+  );
+
 const app = express();
 const port = process.env.PORT || 8080;
 
