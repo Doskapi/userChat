@@ -6,8 +6,6 @@ class DbDao {
     this.db = new sqlite3.Database(dbFilePath, (err) => {
       if (err) {
         console.log('Could not connect to database', err)
-      } else {
-        console.log('Connected to database')
       }
     })
   }
@@ -20,7 +18,7 @@ class DbDao {
           console.log(err)
           reject(err)
         } else {
-          resolve({ id: this.lastID })
+          resolve({ id: this.lastID, changes: this.changes })
         }
       })
     })

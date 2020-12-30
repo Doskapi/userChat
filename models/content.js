@@ -24,14 +24,12 @@ class MessageContent {
     let createVideoMessageTable = `CREATE TABLE IF NOT EXISTS videoMessage (
       contentId ID,
       data TEXT,
-      metadata TEXT,
       FOREIGN KEY(contentId) REFERENCES content(id)
     )`;
 
     let createImageMessageTable = `CREATE TABLE IF NOT EXISTS imageMessage (
       contentId ID,
       data TEXT,
-      metadata TEXT,
       FOREIGN KEY(contentId) REFERENCES content(id)
     )`;
 
@@ -41,14 +39,33 @@ class MessageContent {
       .then(() => this.dao.run(createImageMessageTable));
   }
 
-  create(type, text) {
+  create(type, data) {
     return this.dao.run('INSERT INTO content VALUES (NULL)')
-      .then(data => {
-        if (data && data.id) {
-          return this.dao.run('INSERT INTO textMessage (contentId, data) VALUES (?,?)',
-          [data.id, text])
+      .then(() => this.dao.get('SELECT * FROM content ORDER BY id DESC LIMIT 1'))
+      .then(content => {
+        if (content && content.id) {
+          let sql = 'INSERT INTO ' + this._getTableNameByType(type) + ' (contentId, data) VALUES (?,?)';
+          return this.dao.run(sql, [content.id, data])
+            .then(() => { return content.id })
         }
       });
+  }
+
+  _getTableNameByType(type) {
+    switch (type) {
+      case IMAGE_TYPE:
+        return 'imageMessage';
+      case VIDEO_TYPE:
+        return 'videoMessage';
+      default: // TEXT_TYPE
+        return 'textMessage';
+      }
+  }
+
+  getById(id, type) {
+    return this.dao.get(
+      'SELECT * FROM ' + this._getTableNameByType(type)  + ' WHERE contentId = ?',
+      [id])
   }
 
   isValidType(type) {

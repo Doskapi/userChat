@@ -36,6 +36,6 @@ To run the container:
 - [x] Create the CRUD for the user table
 - [x] Create users endpoint
 - [x] Use md5 to save the pass as a hash in the db
-- [ ] Create login endpoint
-- [ ] Use JWT to securize the endpoints
-- [ ] Create the 2 messages endopoints
+- [x] Create login endpoint
+- [x] Use JWT to securize the endpoints
+- [x] Create the 2 messages endopoints

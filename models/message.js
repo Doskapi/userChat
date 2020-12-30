@@ -16,30 +16,28 @@ class Message {
   _createMessageTable() {
     const sql = `CREATE TABLE IF NOT EXISTS message (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
       senderUserId ID,
       recipientUserId ID,
-      contentTypeId TEXT,
+      contentType TEXT,
       contentId ID,
       FOREIGN KEY(senderUserId) REFERENCES user(id),
       FOREIGN KEY(recipientUserId) REFERENCES user(id),
-      FOREIGN KEY(contentId) REFERENCES content(id),
-      FOREIGN KEY(contentTypeId) REFERENCES contentType(id)
+      FOREIGN KEY(contentId) REFERENCES content(id)
       )`;
     return this.dao.run(sql);
   }
 
   create(senderId, recipientId, type, text) {
-    if (!this.content.isValidType(type)) return "error";
     return this.content.create(type, text)
       .then(data => {
         return this.dao.run(
-          'INSERT INTO message (senderUserId, recipientUserId, contentTypeId, contentId) VALUES (?, ?, ?, ?)',
-          [senderId, recipientId, type, data.id])
+          'INSERT INTO message (senderUserId, recipientUserId, contentType, contentId) VALUES (?, ?, ?, ?)',
+          [senderId, recipientId, type, data])
           .then(data => {
             return this.getById(data.id)
             .then(data => {
-              return {'id': data.id, 'timestamp': data.Timestamp };
+              return {'id': data.id, 'timestamp': data.timestamp };
             })
           })
       });
@@ -52,8 +50,10 @@ class Message {
   }
 
   getByReciepentId(id, start = 0, limit = 100) {
-    let sql = `SELECT * FROM message
+    let sql = `SELECT message.*, COALESCE(textMessage.data, imageMessage.data, videoMessage.data) AS data FROM message
      LEFT JOIN textMessage ON textMessage.contentId = message.contentId
+     LEFT JOIN imageMessage ON imageMessage.contentId = message.contentId
+     LEFT JOIN videoMessage ON videoMessage.contentId = message.contentId
      WHERE recipientUserId = ?
      AND id >= ?
      ORDER BY message.id
@@ -70,11 +70,11 @@ class Message {
     data.forEach(msg => {
       messages.push({
         "id": msg.id,
-        "timestamp": msg.Timestamp,
+        "timestamp": msg.timestamp,
         "sender": msg.senderUserId,
         "recipient": msg.recipientUserId,
         "content": {
-          "type": msg.contentTypeId,
+          "type": msg.contentType,
           "text": msg.data
         }
       });
