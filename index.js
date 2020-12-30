@@ -5,6 +5,8 @@ const healthController = require('./controllers/health.controller');
 const authController = require('./controllers/auth.controller');
 const msgController = require('./controllers/message.controller');
 
+const DbDao = require('./db/dao');
+const dao = new DbDao();
 const app = express();
 const port = process.env.PORT || 8080;
 
