@@ -18,7 +18,7 @@ class DbDao {
           console.log(err)
           reject(err)
         } else {
-          resolve({ id: this.lastID, changes: this.changes })
+          resolve({ id: this.lastID })
         }
       })
     })

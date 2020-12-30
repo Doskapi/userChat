@@ -50,6 +50,7 @@ class Message {
   }
 
   getByReciepentId(id, start = 0, limit = 100) {
+    // we could improve this query, creating the different childs of content
     let sql = `SELECT message.*, COALESCE(textMessage.data, imageMessage.data, videoMessage.data) AS data FROM message
      LEFT JOIN textMessage ON textMessage.contentId = message.contentId
      LEFT JOIN imageMessage ON imageMessage.contentId = message.contentId
@@ -83,7 +84,17 @@ class Message {
   }
 
   getAll() {
-    return this.dao.all(`SELECT * FROM message`)
+    return this.dao.all(`
+    SELECT 
+    message.*,
+    textMessage.data as textdata,
+    imageMessage.data as imagedata,
+    videoMessage.data as videodata
+     FROM message
+    LEFT JOIN textMessage ON textMessage.contentId = message.contentId
+    LEFT JOIN imageMessage ON imageMessage.contentId = message.contentId
+    LEFT JOIN videoMessage ON videoMessage.contentId = message.contentId
+    `)
   }
 }
 

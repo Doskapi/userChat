@@ -21,6 +21,7 @@ const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
 
+// I did not change this, but i strongly suggest to use routers for each api
 app.post('/check', healthController.check);
 app.post('/user',  userController.createUser);
 app.post('/login', authController.login);

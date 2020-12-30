@@ -4,6 +4,8 @@ const IMAGE_TYPE = "image";
 const VIDEO_TYPE = "video";
 
 class MessageContent {
+  // eventually we can create different childs of this class for each of the types presented
+  // this childs will handle the different values or metadata
 
   constructor(dao) {
     this.dao = dao;
