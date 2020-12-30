@@ -33,9 +33,9 @@ To run the container:
 
 - [x] Dockerize
 - [x] Create the sql db (basic tables) // mongodb will probably be a better db, but i will follow the sqlite3 advise
-- [ ] Create the CRUD for the user table
-- [ ] Create users endpoint
-- [ ] Use md5 to save the pass as a hash in the db
+- [x] Create the CRUD for the user table
+- [x] Create users endpoint
+- [x] Use md5 to save the pass as a hash in the db
 - [ ] Create login endpoint
 - [ ] Use JWT to securize the endpoints
 - [ ] Create the 2 messages endopoints
