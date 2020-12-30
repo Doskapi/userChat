@@ -36,6 +36,12 @@ class User {
   getAll() {
     return this.dao.all(`SELECT * FROM user`)
   }
+
+  getByUsernameAndPassword(username, password) {
+    return this.dao.get(
+      `SELECT * FROM user WHERE username = (?) AND password = (?)`,
+      [username, md5(password)])
+  }
 }
 
 module.exports = User;
